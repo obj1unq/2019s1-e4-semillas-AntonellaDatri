@@ -1,0 +1,104 @@
+import semillas.*
+
+describe "plantas" {
+	
+	const menta1Mts = new Menta	(anioDeObtencion = 0,
+								 altura =1
+								 )
+	const menta30cm = new Menta	(anioDeObtencion = 0,
+								 altura = 0.3
+								 )
+	const soja60cm = new Soja	(anioDeObtencion = 2009,
+								 altura = 0.6
+								 )
+	const soja2Mt = new Soja	(anioDeObtencion = 2009,
+								 altura = 2
+								 )								 
+	const quinoaSol12 = new Quinoa	(anioDeObtencion = 2010,
+								 	 altura = 0.6, 
+								 	 horasDeSol = 12
+								 	 )
+	const quinoaSol9 = new Quinoa	(anioDeObtencion = 2001,
+								 	 altura = 0.6, 
+								 	 horasDeSol = 9
+								 	 )	
+	const sojaTransgenica = new SojaTransgenica	(anioDeObtencion = 2009,
+												 altura = 2
+												 )								 	  	
+	const hierbabuena1Mts = new Hierbabuena	(anioDeObtencion = 0,
+											 altura =1
+											 )
+	
+	
+	
+	//MENTA
+	test "una menta de 1 metro, debe dar semillas y ocupa un espacio de 3 metros cuadrados."{
+		assert.that (menta1Mts.daNuevasSemillas())
+		assert.equals(menta1Mts.esplacioOcupado(), 3)
+	}
+	test "una menta de solo 0.3 metros, no debe dar semillas y ocupa 0.9 m2 de espacio."{
+		assert.notThat (menta30cm.daNuevasSemillas())
+		assert.equals(menta30cm.esplacioOcupado(), 0.9)
+	}
+	//SOJA
+	test "soja de 0.6 metros y de semilla de 2009, la planta tiene una tolerancia al sol de 7 horas,
+																 no da semillas y ocupa 0.3 m2."{
+		assert.equals (soja60cm.horasDeSolToleradas(), 7)
+		assert.notThat (soja60cm.daNuevasSemillas())
+		assert.equals (soja60cm.esplacioOcupado(), 0.3)
+	}
+	test "soja de 2 metros y de semilla de 2009, la planta tiene una tolerancia al sol de 7 horas,
+																     da semillas y ocupa 0.5 m2."{
+		assert.equals (soja2Mt.horasDeSolToleradas(), 9)
+		assert.that (soja2Mt.daNuevasSemillas())
+		assert.equals (soja2Mt.esplacioOcupado(), 1)
+	}
+	//QUINOA
+	test "una quinoa que tolera 12 horas de sol y su semilla de origen es de 2010, da semillas"{
+		assert.that (quinoaSol12.daNuevasSemillas())
+	}
+	test "una quinoa que tolera 9 horas de sol y su semilla de origen es de 2001, da semillas"{
+		assert.that (quinoaSol9.daNuevasSemillas()
+		)
+	}
+	//SOJA TRANSGENICA
+	test "la soja trasgnica no da semillas a pesar de que cumple con los requisitos de la condicion
+																				 general de la soja"{
+		assert.notThat (sojaTransgenica.daNuevasSemillas()
+		)
+	}
+	//HIERBABUENA
+	test "la hierba buena de 1 metro ocupa el doble de espacio de una menta con las mismas
+													caracteristicas (3 mts), creece 6 mts"{
+		assert.equals(hierbabuena1Mts.esplacioOcupado(), 6)
+	}
+	//PARCELAS
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
