@@ -1,0 +1,96 @@
+import semillas.*
+import parcelas.*
+describe "plantas" {
+	
+	const parcela = new Parcela	(largo =  1,
+								 ancho = 20,
+								 horasDeSol = 8,
+								 plantas = [], 
+								 esEcologica = true
+								 )
+	const parcelaInd = new Parcela	(largo =  1,
+									 ancho = 20,
+									 horasDeSol = 8,
+									 plantas = [], 
+									 esEcologica = false
+									 )							 
+								 
+	const soja = new Soja	(anioDeObtencion = 2009,
+							 altura = 1.1
+							 )
+	const sojaTransgenica = new SojaTransgenica	(anioDeObtencion = 2009,
+												 altura = 2
+												 )								 
+	const menta = new Menta	(anioDeObtencion = 0,
+							 altura =1
+							 )	
+	const hierbabuena = new Hierbabuena	(anioDeObtencion = 2000,
+										 altura = 0.5
+										 )
+								 						 
+								 
+	const quinoa = new Quinoa	(anioDeObtencion = 2010,
+								 	 altura = 0.6, 
+								 	 horasDeSol = 6
+								 	 )							 
+	const quinoaSol11 = new Quinoa	(anioDeObtencion = 2010,
+								 	 altura = 0.6, 
+								 	 horasDeSol = 11
+								 	 )							 
+								 							 
+								 
+								 
+	test "Una parcela de 20 mts. de ancho por 1 mt. de largo que recibe 8 horas de sol por día, 
+			tiene una superficie de 20 m2 y la cantidad máxima de plantas que tolera es de 4."{
+		assert.equals(parcela.superficie(), 20)
+		assert.equals(parcela.cantMaxDePlantas(), 4)
+	}							 
+	test "si a una parcela descripta como el test anterior le plantamos 4 plantas de soja de más
+		de 1 metro, no tendría complicaciones. Si agregamos una quinta planta, nos arrojaría un error."{
+		parcela.plantarUnaPlanta(soja)
+		parcela.plantarUnaPlanta(soja)
+		parcela.plantarUnaPlanta(soja)
+		parcela.plantarUnaPlanta(soja)
+		assert.notThat(parcela.tieneComplicaciones())
+		assert.throwsExceptionWithMessage("no se puede plantar esta planta", { parcela.plantarUnaPlanta(soja) })
+	}	
+	test "si a una parcela descripta como el 1er test le intentaramos agregar una quinoa con dos horas 
+     		 									de sol menos que la parcela nos arrojaría un error."{
+		assert.throwsExceptionWithMessage("no se puede plantar esta planta", { parcela.plantarUnaPlanta(quinoa) })
+	}
+	test "la parcela descripta en el 1 test es ideal para la menta y lahierbabuena"{
+		assert.that(menta.esIdeal(parcela))
+		assert.that(hierbabuena.esIdeal(parcela))
+	}	
+	test "la parcela descripta en el 1 test es ideal para la quinoa pero deja de serlo si se le planta
+																				 una soja transgenica"{
+		assert.that(quinoa.esIdeal(parcela))
+		parcela.plantarUnaPlanta(sojaTransgenica)
+		assert.notThat(quinoa.esIdeal(parcela))
+	}					 
+	test "la parcela descripta en el 1 test no es ideal para la soja ni para la soja transgenica"{
+		assert.notThat(soja.esIdeal(parcela))
+		assert.notThat(sojaTransgenica.esIdeal(parcela))
+	}
+	test "la parcela descripta en el 1 test es ecologica y es compatible con la menta pero no con la
+																							 soja"{
+		assert.that(parcela.esCompatibleCon(menta))
+		assert.notThat(parcela.esCompatibleCon(soja))
+	}
+	test "una parcela industrial es compatible con la una quinia con que tolera 11hs de sol
+		  									pero no on la soja (ya que no es fuente)"{
+		assert.that(parcelaInd.esCompatibleCon(quinoaSol11))
+		assert.notThat(parcelaInd.esCompatibleCon(soja))
+	}
+}
+
+
+
+
+
+
+
+
+
+
+

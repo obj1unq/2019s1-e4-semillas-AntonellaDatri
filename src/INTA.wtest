@@ -1,0 +1,62 @@
+import semillas.*
+import parcelas.*
+import INTA.*
+describe "plantas" {
+						
+	const sojaTransgenica = new SojaTransgenica	(anioDeObtencion = 2009,
+												 altura = 2
+												 )								 
+	const menta = new Menta	(anioDeObtencion = 0,
+							 altura =1
+							 )
+ 	const quinoa = new Quinoa	(anioDeObtencion = 2010,
+							 	 altura = 0.6, 
+							 	 horasDeSol = 11
+							 	 )	
+	const parcelaEco = new Parcela	(largo =  1,
+									 ancho = 20,
+									 horasDeSol = 8,
+									 plantas = [sojaTransgenica, menta, menta, menta, menta], 
+									 esEcologica = true
+								 	 )
+	const parcelaInd = new Parcela	(largo =  1,
+									 ancho = 20,
+									 horasDeSol = 8,
+									 plantas = [quinoa, sojaTransgenica, sojaTransgenica, quinoa, quinoa, sojaTransgenica], 
+									 esEcologica = false
+									 )
+	fixture {
+		inta.agregarParcela(parcelaEco)
+		inta.agregarParcela(parcelaInd)
+	}						 
+								 		
+	test "promedio de las parcelas de INTA es 5.5" {
+		assert.equals(inta.promedioDePlantas(), 5.5)
+	
+	}
+	test "la parcelaEco es la parcela mas autosustentable" {
+		assert.equals(inta.parcelaMasAutosustentable(), parcelaEco)
+	
+	}
+	test "la parcelaEco tiene 4 plantas bien asociadas mientras que la parcela parcelaInd tiene 
+																						solo 2" {
+		assert.equals(parcelaEco.cantPlantasBienAso(), 4)
+		assert.equals(parcelaInd.cantPlantasBienAso(), 0)
+	
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
